@@ -50,9 +50,9 @@ async function loadSavedCredentialsIfExist() {
  * @param {OAuth2Client} client
  * @return {Promise<void>}
  */
-async function saveCredentials(
-  client: { credentials: { refresh_token: any; }; }
-): Promise<void> {
+async function saveCredentials(client: {
+  credentials: { refresh_token: any };
+}): Promise<void> {
   const content = await fs.readFile(CREDENTIALS_PATH);
   const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
@@ -84,9 +84,7 @@ async function authorize() {
   return client;
 }
 
-async function listEvents(
-  auth: any
-): Promise<IStreamingSchedule[]> {
+async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
   const timeMin = new Date();
   timeMin.setHours(0, 0, 0, 0);
   const timeMax = new Date();
@@ -107,15 +105,16 @@ async function listEvents(
   console.log(events);
 
   const streamingSlot = events.filter(
-    (event: { recurringEventId: string; }) => event.recurringEventId === "4c359d983f674dbb992cf8d0661320da"
+    (event: { recurringEventId: string }) =>
+      event.recurringEventId === "4c359d983f674dbb992cf8d0661320da",
   );
 
   const streamingSchedule: IStreamingSchedule[] = streamingSlot.map(
-    (event: { start: { dateTime: string; }; end: { dateTime: string; }; }) => ({
+    (event: { start: { dateTime: string }; end: { dateTime: string } }) => ({
       title: "Streaming",
       start: event.start.dateTime,
       end: event.end.dateTime,
-    })
+    }),
   );
 
   return streamingSchedule;
