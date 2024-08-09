@@ -102,8 +102,6 @@ async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
   });
   const events = res.data.items;
 
-  console.log(events);
-
   const streamingSlot = events.filter(
     (event: { recurringEventId: string }) =>
       event.recurringEventId === "4c359d983f674dbb992cf8d0661320da",
