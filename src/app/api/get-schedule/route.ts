@@ -27,6 +27,13 @@ interface IStreamingSchedule {
 
 const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 const TOKEN_PATH = path.join(process.cwd(), "token.json");
+const TOKEN = {
+  type: process.env.token_type,
+  client_id: process.env.token_client_id,
+  client_secret: process.env.token_client_secret,
+  refresh_token: process.env.token_refresh_token,
+};
+
 const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json");
 
 /**
@@ -36,9 +43,7 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json");
  */
 async function loadSavedCredentialsIfExist() {
   try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content);
-    return google.auth.fromJSON(credentials);
+    return google.auth.fromJSON(TOKEN);
   } catch (err) {
     return null;
   }
@@ -53,13 +58,10 @@ async function loadSavedCredentialsIfExist() {
 async function saveCredentials(client: {
   credentials: { refresh_token: any };
 }): Promise<void> {
-  const content = await fs.readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
   const payload = JSON.stringify({
     type: "authorized_user",
-    client_id: key.client_id,
-    client_secret: key.client_secret,
+    client_id: process.env.client_id,
+    client_secret: process.env.client_secret,
     refresh_token: client.credentials.refresh_token,
   });
   await fs.writeFile(TOKEN_PATH, payload);
@@ -71,6 +73,7 @@ async function saveCredentials(client: {
  */
 async function authorize() {
   let client = await loadSavedCredentialsIfExist();
+  console.log(client)
   if (client) {
     return client;
   }
@@ -104,7 +107,7 @@ async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
 
   const streamingSlot = events.filter(
     (event: { recurringEventId: string }) =>
-      event.recurringEventId === "4c359d983f674dbb992cf8d0661320da",
+      event.recurringEventId === "4c359d983f674dbb992cf8d0661320da"
   );
 
   const streamingSchedule: IStreamingSchedule[] = streamingSlot.map(
@@ -112,7 +115,7 @@ async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
       title: "Streaming",
       start: event.start.dateTime,
       end: event.end.dateTime,
-    }),
+    })
   );
 
   return streamingSchedule;
