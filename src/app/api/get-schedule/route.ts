@@ -73,7 +73,7 @@ async function saveCredentials(client: {
  */
 async function authorize() {
   let client = await loadSavedCredentialsIfExist();
-  console.log(client)
+  console.log(client);
   if (client) {
     return client;
   }
@@ -107,7 +107,7 @@ async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
 
   const streamingSlot = events.filter(
     (event: { recurringEventId: string }) =>
-      event.recurringEventId === "4c359d983f674dbb992cf8d0661320da"
+      event.recurringEventId === "4c359d983f674dbb992cf8d0661320da",
   );
 
   const streamingSchedule: IStreamingSchedule[] = streamingSlot.map(
@@ -115,7 +115,7 @@ async function listEvents(auth: any): Promise<IStreamingSchedule[]> {
       title: "Streaming",
       start: event.start.dateTime,
       end: event.end.dateTime,
-    })
+    }),
   );
 
   return streamingSchedule;
