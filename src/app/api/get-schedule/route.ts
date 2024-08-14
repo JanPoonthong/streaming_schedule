@@ -73,7 +73,6 @@ async function saveCredentials(client: {
  */
 async function authorize() {
   let client = await loadSavedCredentialsIfExist();
-  console.log(client);
   if (client) {
     return client;
   }
