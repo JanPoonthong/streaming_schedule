@@ -1,5 +1,5 @@
 export type Schedule = {
-  title: string,
-  start: string,
-  end: string
-}
+  title: string;
+  start: string;
+  end: string;
+};

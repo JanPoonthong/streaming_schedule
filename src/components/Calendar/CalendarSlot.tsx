@@ -1,5 +1,3 @@
 export default function CalendarSlot() {
-  return <>
-    CalendarSlot
-  </>;
+  return <>CalendarSlot</>;
 }
